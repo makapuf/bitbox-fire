@@ -18,3 +18,5 @@ to compile, see makefile, install as  :
  enter the directory & make
 
  Or use the .bin file on bitbox
+ 
+ ![Screenshot](http://3.bp.blogspot.com/-y4zqlWs6mj0/UtXGJvGEJ5I/AAAAAAAAAC4/5wqTpH3myj8/s1600/firemen.png)
