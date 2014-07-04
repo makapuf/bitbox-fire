@@ -10,13 +10,9 @@
 */
 
 #include <stdint.h>
-#include <kernel.h>
+#include <bitbox.h>
 #include <stdlib.h> // rand
 #include <string.h>
-
-#ifdef EMULATED
-#include <stdio.h>
-#endif
 
 
 typedef uint16_t Sprite[][3]; // c1,c2,n
@@ -73,18 +69,18 @@ int firemen_index;
 const int firemen_steps = 3;
 const int firemen_x[] = {60,60+130,60+130*2}; // places to display the firemen.
 const int firemen_y=415; // fixed ! (start of the sprite)
-const uint16_t TRANSPARENT_COLOR=0xf0f; 
+const uint16_t TRANSPARENT_COLOR=RGB(255,0,255); 
 
 extern Sprite firemen_sprite;
 extern int firemen_w, firemen_h;
 
 void move_firemen()
 {
-	if (demo && PRESSED(start))	start_game();
+	if (demo && GAMEPAD_PRESSED(0,start))	start_game();
 
 	static int need_rel;
 
-    if (PRESSED(left) && firemen_pos >0) 
+    if (GAMEPAD_PRESSED(0,left) && firemen_pos >0) 
 	{
 		if (!need_rel)
 		{ 
@@ -92,7 +88,7 @@ void move_firemen()
 	    	need_rel= 1;
 	    }
 	}
-	else if (PRESSED(right) && firemen_pos<firemen_steps-1)
+	else if (GAMEPAD_PRESSED(0,right) && firemen_pos<firemen_steps-1)
 	{
 		if (!need_rel)
 		{ 
@@ -104,7 +100,7 @@ void move_firemen()
 	{
 		need_rel =0;
 	}
-	if (PRESSED(A) && (vga_frame % 16 == 0)) initialize_guy(2);
+	if (GAMEPAD_PRESSED(0,A) && (vga_frame % 16 == 0)) initialize_guy(2);
 }
 
 
@@ -216,9 +212,7 @@ void start_game()
 	demo =0;
     score = 0;
     lives = 3;
-    #ifdef EMULATED
-    printf("nouvelle partie\n");
-    #endif
+    message("New game\n");
     start_life();
 }
 
@@ -233,9 +227,7 @@ void start_life()
     nb_guys=0;
 
     next_emit_frame = vga_frame+60; // issue a small pause.
-    #ifdef EMULATED
-    printf("perdu: %d - %d lives\n",score, lives);
-    #endif
+    message("Lost ! \n");
 }
 
 
@@ -276,9 +268,7 @@ int blit (Sprite sprite, int w, int h, int x, int y, int blit_index)
 			blit_index += 1;
 			#ifdef EMULATED
 				if(x+dx>640)
-				{
 					printf("vga_line : %d, sprite w %d\n",vga_line,w);
-				}
 			#endif
 		}
 	}
@@ -416,4 +406,4 @@ void game_line()
 
 }
 
-void game_snd_buffer(uint8_t *buffer, int len) {};
+void game_snd_buffer(uint16_t *buffer, int len) {};
