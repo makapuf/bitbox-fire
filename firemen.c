@@ -287,21 +287,23 @@ void game_init()
 	// inactivate all guys
 	for (int i=0;i<MAX_GUYS;i++) guys[i].x = INACTIVE;
 	nb_guys=0;
+	score_digits[0] = score_digits[1] =	score_digits[2] = numbers[0];
 }
 
 // check if a guy can be emitted i.e. that another one is not at the same position
 int isaguy_high()
 {
-	for (int i=0;i<MAX_GUYS;i++)
-		{
+	for (int i=0;i<MAX_GUYS;i++) {
 			if (guys[i].x!=INACTIVE && guys[i].y<start_guy_y+30 )
 				return 1;
-		}
+	}
 	return 0;
 }
 
 void game_frame()
 {
+	kbd_emulate_gamepad();
+
 	move_firemen();
 
 	// moving active guys 
@@ -323,7 +325,11 @@ void game_frame()
 		else // ok now, don't send a new one
 			next_emit_frame=0;
 	};
+}
 
+
+void graph_frame(void) 
+{
 
 	// rewind all sprites for the next frame
 	bg_index = firemen_index = 0;
@@ -346,7 +352,8 @@ void game_frame()
 	start_index = 0;
 }
 
-void game_line()
+
+void graph_line()
 {	
 	// Background 
 	bg_index = blit(bg_sprite, bg_w, bg_h, 0, 0, bg_index); 

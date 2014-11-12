@@ -1,6 +1,5 @@
 # generated 
-data.c
-
+*.bin
 
 # Object files
 *.o
