@@ -302,7 +302,6 @@ int isaguy_high()
 
 void game_frame()
 {
-	kbd_emulate_gamepad();
 
 	move_firemen();
 
@@ -328,23 +327,25 @@ void game_frame()
 }
 
 
-void graph_frame(void) 
+void graph_vsync(void) 
 {
+	// Do all on same line
+	if (vga_line != VGA_V_PIXELS+3) return;
+
 
 	// rewind all sprites for the next frame
 	bg_index = firemen_index = 0;
-	for (int i=0;i<MAX_GUYS;i++) guys[i].index = 0;
+	for (int i=0;i<MAX_GUYS;i++) 
+		guys[i].index = 0;
 
 	// score sprites
-	for (int i=0;i<3;i++)
-	{
+	for (int i=0;i<3;i++) {
 		score_digits[i] = numbers[(score/pow10[i])%10];
 		score_digits_index[i]=0;
 	}
 
 	// angels 
-	for (int i=0;i<3;i++)
-	{
+	for (int i=0;i<3;i++) {
 		angel_index[i]=0;
 	}
 
