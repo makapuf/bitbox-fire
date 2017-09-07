@@ -3,3 +3,4 @@ build/
 *.elf
 *_sdl
 
+bitbox_icon.c
