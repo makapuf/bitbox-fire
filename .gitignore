@@ -2,5 +2,5 @@
 build/
 *.elf
 *_sdl
-
+data.c
 bitbox_icon.c
